@@ -5,6 +5,7 @@ let player = [
     { row: 7, col: 7},
     { row: 8, col: 7},
     { row: 9, col: 7},
+    { row: 10, col: 7},
 ]
     
     
@@ -18,7 +19,7 @@ for (let i = 0; i < player.length; i++) {
 // Create divs to model the grid array
 createDivGrid(grid);
 
-setInterval(draw, 200);
+setInterval(draw, 500);
 
 let game = true;
 

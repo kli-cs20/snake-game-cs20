@@ -87,17 +87,26 @@ function updatePlayer(newRow, newCol) {
     for (let i = player.length - 2; i >= 0; i--) {
         // Start at second to last element, go backwards from there
         // The second last element will become the element before it
-        player[i + 1] = player[i];
+        player[i + 1] = { ...player[i] };
     }
+    console.log(player)
 
     // Update player location
-    player[0].row = newRow;
-    player[0].col = newCol;
+    player.splice(0, 0, { row: newRow, col: newCol});
+
+    // player[0].row = newRow;
+    // player[0].col = newCol;
 
     // Draw Player
     for (let i = 0; i < player.length; i++) {
         grid[player[i].row][player[i].col] = 1;
     }
+
+    // Remove last player array value
+    let last = player.length - 1;
+    grid[player[last].row][player[last].col] = 0;
+    player.splice(player.length - 1, 1);
+
 }
 
 
@@ -113,12 +122,12 @@ function updateGrid() {
         for (let col = 0; col < NUM_COLS; col++) {
             if (grid[row][col] === 0) {
                 // Update class and grid
-                let cellId = "cell" + player.row + "-" + player.col;
+                let cellId = "cell" + row + "-" + col;
                 document.getElementById(cellId).classList.remove("player");
                 document.getElementById(cellId).classList.add("empty");
             } else if (grid[row][col] === 1) {
                 // Update class and grid
-                let cellId = "cell" + player.row + "-" + player.col;
+                let cellId = "cell" + row + "-" + col;
                 document.getElementById(cellId).classList.remove("empty");
                 document.getElementById(cellId).classList.add("player");
             }
