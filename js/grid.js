@@ -1,5 +1,16 @@
 // GRID FUNCTIONS
 
+// Global Constants
+const NUM_ROWS = 15;
+const NUM_COLS = 15;
+
+// Create array to represent a grid
+let grid = createGridArray();
+
+// Create divs to model the grid array
+createDivGrid(grid);
+
+
 function createGridArray() {
     // Create and return a grid array
     return [ [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -36,10 +47,7 @@ function createDivGrid(grid) {
 
             // Add dataset values for row and col
             divEl.dataset.row = row;
-            divEl.dataset.col = col; 
-
-            // Add Event Listener to each div element
-            divEl.addEventListener("click", cellClicked);
+            divEl.dataset.col = col; ;
 
             // Add div to container
             document.getElementById("container").append(divEl);
@@ -47,24 +55,77 @@ function createDivGrid(grid) {
     }
 }
 
-function cellClicked(e) {
-    // console.log(e.target);
-    // Set color of the clicked cell
+// Key Event Listeners - player movement
+document.addEventListener("keydown", changeDirection);
 
-    // Get value of color select element
-    let color = document.getElementById("cell-color").value;
+function changeDirection(e) {
+    if (e.keyCode === 39) { // Right arrow key
+        player.direction = "right";
+    } else if (e.keyCode === 37) { // Left arrow key
+        player.direction = "left";
+    } else if (e.keyCode === 38) { // up arrow key
+        player.direction = "up";
+    } else if (e.keyCode === 40) { // Down arrow key
+        player.direction = "down";
+    }
+}
 
-    // Get row and col of the clicked cell
-    let row = e.target.dataset.row;
-    let col = e.target.dataset.col;
+function movePlayer() {
+    if (player.direction === "left") {
+        if (player.col - 1 >= 0) {
+            updatePlayer(player.row, player.col - 1);
+        } else {
+            gameOver();
+        }
+    } else if (player.direction === "right") {
+        if (player.col + 1 < 6) {
+            updatePlayer(player.row, player.col + 1);
+        } else {
+            gameOver();
+        }
+    } else if (player.direction === "up") {
+        if (player.row - 1 >= 0) {
+            updatePlayer(player.row - 1, player.col);
+        } else {
+            gameOver();
+        }
+    } else if (player.direction === "down") {
+        if (player.row + 1 < 6) {
+            updatePlayer(player.row + 1, player.col);
+        } else {
+            gameOver();
+        }
+    }
+}
 
-    // Update clicked cell based on color selection
-    e.target.classList = ""; // Clear class list of cell
-    grid[row][col] = 0; // Set grid to "white";
-
-    if (color === "grey") {
-        e.target.classList.add("grey");
-        grid[row][col] = 1;
+function updatePlayer(newRow, newCol) {
+    function checkCollisions() {
+        return grid[newRow][newCol] !== 1 && grid[newRow][newCol] !== 2;
     }
 
+    if (checkCollisions) {
+        // Remove player class from current location
+        let cellId = "cell" + player.row + "-" + player.col;
+        document.getElementById(cellId).classList.remove("player");
+
+        // Set grid array to 0 for current location
+        grid[player.row][player.col] = 0;
+
+        // Update player location
+        player.row = newRow;
+        player.col = newCol;
+
+        // Update class and grid
+        cellId = "cell" + player.row + "-" + player.col;
+        document.getElementById(cellId).classList.add("player");
+
+        grid[player.row][player.col] = 1;
+    }
+}
+
+function gameOver() {
+    player.direction = "";
+    player.row = 7;
+    player.col = 7;
+    console.log("Game Over");
 }
