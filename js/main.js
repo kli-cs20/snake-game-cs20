@@ -19,12 +19,13 @@ for (let i = 0; i < player.length; i++) {
 // Create divs to model the grid array
 createDivGrid(grid);
 
-setInterval(draw, 500);
+setInterval(draw, 1000);
 
 let game = true;
 
 function draw() {
     if (game) {
+        console.log(player)
         movePlayer();
 
         checkCollisions();

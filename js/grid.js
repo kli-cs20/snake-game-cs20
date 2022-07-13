@@ -6,7 +6,7 @@ const NUM_COLS = 15;
 
 // Create array to represent a grid
 let grid = createGridArray();
-
+let temp = [];
 
 
 function createGridArray() {
@@ -83,30 +83,28 @@ function movePlayer() {
 }
 
 function updatePlayer(newRow, newCol) {
+    temp = player;
 
-    for (let i = player.length - 2; i >= 0; i--) {
+    for (let i = temp.length - 2; i >= 0; i--) {
         // Start at second to last element, go backwards from there
         // The second last element will become the element before it
-        player[i + 1] = { ...player[i] };
+        temp[i + 1] = { ...temp[i] };
     }
-    console.log(player)
 
     // Update player location
-    player.splice(0, 0, { row: newRow, col: newCol});
-
-    // player[0].row = newRow;
-    // player[0].col = newCol;
-
-    // Draw Player
-    for (let i = 0; i < player.length; i++) {
-        grid[player[i].row][player[i].col] = 1;
-    }
+    temp.splice(0, 0, { row: newRow, col: newCol});
 
     // Remove last player array value
-    let last = player.length - 1;
-    grid[player[last].row][player[last].col] = 0;
-    player.splice(player.length - 1, 1);
+    let last = temp.length - 1;
+    grid[temp[last].row][temp[last].col] = 0;
+    temp.pop();
 
+    // Draw Player
+    for (let i = 0; i < temp.length; i++) {
+        grid[temp[i].row][temp[i].col] = 1;
+    }
+
+    player = temp;
 }
 
 
