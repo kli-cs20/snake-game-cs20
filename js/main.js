@@ -20,11 +20,16 @@ createDivGrid(grid);
 
 setInterval(draw, 200);
 
+let game = true;
+
 function draw() {
+    if (game) {
+        movePlayer();
 
-    movePlayer();
-
-    updateGrid();
+        checkCollisions();
+    
+        updateGrid();
+    }   
 }
 
 

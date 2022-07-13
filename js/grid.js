@@ -39,7 +39,9 @@ function createDivGrid(grid) {
             divEl.id = "cell" + row  +  "-" + col;
 
             // Add appropriate class to each div element
-            if (grid[row][col] === 1) {
+            if (grid[row][col] === 0) {
+                divEl.classList.add("empty");
+            } else if (grid[row][col] === 1) {
                 divEl.classList.add("player");
             }
 
@@ -70,13 +72,13 @@ function changeDirection(e) {
 
 function movePlayer() {
     if (direction === "left") {
-        updatePlayer(player.row, player.col - 1);
+        updatePlayer(player[0].row, player[0].col - 1);
     } else if (direction === "right") {
-        updatePlayer(player.row, player.col + 1);
+        updatePlayer(player[0].row, player[0].col + 1);
     } else if (direction === "up") {
-        updatePlayer(player.row - 1, player.col);
+        updatePlayer(player[0].row - 1, player[0].col);
     } else if (direction === "down") {
-        updatePlayer(player.row + 1, player.col);
+        updatePlayer(player[0].row + 1, player[0].col);
     }
 }
 
@@ -88,34 +90,23 @@ function updatePlayer(newRow, newCol) {
         player[i + 1] = player[i];
     }
 
-    removeBlock(player[player.length - 1]);
+    // Update player location
+    player[0].row = newRow;
+    player[0].col = newCol;
 
-    function checkCollisions() {
-        return grid[newRow][newCol] !== 1 && grid[newRow][newCol] !== 2;
-    }
-
-    if (checkCollisions) {
-        // Update player location
-        player[0].row = newRow;
-        player[0].col = newCol;
-
-        for (let i = 0; i < player.length; i++) {
-            grid[player[i].row][player[i].col] = 1;
-        }
+    // Draw Player
+    for (let i = 0; i < player.length; i++) {
+        grid[player[i].row][player[i].col] = 1;
     }
 }
+
 
 function removeBlock(block) {
     // Set grid array to 0 for current location
     grid[block.row][block.col] = 0;
 }
 
-function gameOver() {
-    direction = "up";
-    player.row = 7;
-    player.col = 7;
-    console.log("Game Over");
-}
+
 
 function updateGrid() {
     for (let row = 0; row < NUM_ROWS; row++) {
@@ -123,12 +114,32 @@ function updateGrid() {
             if (grid[row][col] === 0) {
                 // Update class and grid
                 let cellId = "cell" + player.row + "-" + player.col;
-                document.getElementById(cellId).classList.remove();
-            } else if (grid[row][col] === 01) {
+                document.getElementById(cellId).classList.remove("player");
+                document.getElementById(cellId).classList.add("empty");
+            } else if (grid[row][col] === 1) {
                 // Update class and grid
                 let cellId = "cell" + player.row + "-" + player.col;
+                document.getElementById(cellId).classList.remove("empty");
                 document.getElementById(cellId).classList.add("player");
             }
         }
     }
+}
+
+function checkCollisions() {
+    for (let i = 0; i < player.length; i++) {
+        if (player[i].row < 0 || player[i].row > 14) {
+            gameOver();
+        } else if (player[i].col < 0 || player[i].col > 14) {
+            gameOver();
+        }
+    }
+}
+
+function gameOver() {
+    direction = "up";
+    player.row = 7;
+    player.col = 7;
+    console.log("Game Over");
+    game = false;
 }

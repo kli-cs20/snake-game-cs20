@@ -9,8 +9,8 @@
     float: left;
 }
 
-.grey {
-    background-color: grey;
+.empty {
+    background-color: white;
 }
 
 .player {
