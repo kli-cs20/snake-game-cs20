@@ -21,10 +21,10 @@ createDivGrid(grid);
 setInterval(draw, 200);
 
 function draw() {
-    grid.innerHTML = "";
+
     movePlayer();
 
-
+    updateGrid();
 }
 
 

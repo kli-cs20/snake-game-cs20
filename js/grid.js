@@ -70,68 +70,65 @@ function changeDirection(e) {
 
 function movePlayer() {
     if (direction === "left") {
-        if (player.col - 1 >= 0) {
-            updatePlayer(player.row, player.col - 1);
-        } else {
-            gameOver();
-        }
+        updatePlayer(player.row, player.col - 1);
     } else if (direction === "right") {
-        if (player.col + 1 < 15) {
-            updatePlayer(player.row, player.col + 1);
-        } else {
-            gameOver();
-        }
+        updatePlayer(player.row, player.col + 1);
     } else if (direction === "up") {
-        if (player.row - 1 >= 0) {
-            updatePlayer(player.row - 1, player.col);
-        } else {
-            gameOver();
-        }
+        updatePlayer(player.row - 1, player.col);
     } else if (direction === "down") {
-        if (player.row + 1 < 15) {
-            updatePlayer(player.row + 1, player.col);
-        } else {
-            gameOver();
-        }
+        updatePlayer(player.row + 1, player.col);
     }
 }
 
 function updatePlayer(newRow, newCol) {
+
     for (let i = player.length - 2; i >= 0; i--) {
         // Start at second to last element, go backwards from there
         // The second last element will become the element before it
-        player[i + 1] = { ...player[i] }
+        player[i + 1] = player[i];
     }
 
+    removeBlock(player[player.length - 1]);
 
     function checkCollisions() {
         return grid[newRow][newCol] !== 1 && grid[newRow][newCol] !== 2;
     }
 
     if (checkCollisions) {
-        
-        // // Remove player class from current location
-        // let cellId = "cell" + player.row + "-" + player.col;
-        // document.getElementById(cellId).classList.remove("player");
-
-        // Set grid array to 0 for current location
-        // grid[player.row][player.col] = 0;
-
         // Update player location
-        player.row = newRow;
-        player.col = newCol;
+        player[0].row = newRow;
+        player[0].col = newCol;
 
-        // Update class and grid
-        cellId = "cell" + player.row + "-" + player.col;
-        document.getElementById(cellId).classList.add("player");
-
-        grid[player.row][player.col] = 1;
+        for (let i = 0; i < player.length; i++) {
+            grid[player[i].row][player[i].col] = 1;
+        }
     }
 }
 
+function removeBlock(block) {
+    // Set grid array to 0 for current location
+    grid[block.row][block.col] = 0;
+}
+
 function gameOver() {
-    direction = "";
+    direction = "up";
     player.row = 7;
     player.col = 7;
     console.log("Game Over");
+}
+
+function updateGrid() {
+    for (let row = 0; row < NUM_ROWS; row++) {
+        for (let col = 0; col < NUM_COLS; col++) {
+            if (grid[row][col] === 0) {
+                // Update class and grid
+                let cellId = "cell" + player.row + "-" + player.col;
+                document.getElementById(cellId).classList.remove();
+            } else if (grid[row][col] === 01) {
+                // Update class and grid
+                let cellId = "cell" + player.row + "-" + player.col;
+                document.getElementById(cellId).classList.add("player");
+            }
+        }
+    }
 }
