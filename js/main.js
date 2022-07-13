@@ -1,19 +1,20 @@
 // GRID DESIGNER
 
 // Global Constants
-const NUM_ROWS = 10;
-const NUM_COLS = 10;
+const NUM_ROWS = 15;
+const NUM_COLS = 15;
 
 // Create array to represent a grid
 let grid = createGridArray();
 
 // Add player to the grid array
 let player = {
-    row: 0,
-    col: 0
+    row: 7,
+    col: 7,
+    direction: "right"
 }
 
-grid[player.row][player.col] = 2;
+grid[player.row][player.col] = 1;
 
 // Create divs to model the grid array
 createDivGrid(grid);
@@ -49,7 +50,7 @@ function updatePlayer(newRow, newCol) {
     cellId = "cell" + player.row + "-" + player.col;
     document.getElementById(cellId).classList.add("player");
 
-    grid[player.row][player.col] = 2;
+    grid[player.row][player.col] = 1;
 }
 
 
