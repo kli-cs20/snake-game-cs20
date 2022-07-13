@@ -86,9 +86,8 @@ function updatePlayer(newRow, newCol) {
     temp = player;
 
     // Remove last player array value
-    let last = temp.length - 1;
-    grid[temp[last].row][temp[last].col] = 0;
-    temp.pop();
+    let tail = temp.pop();
+    grid[tail.row][tail.col] = 0;
 
     for (let i = temp.length - 1; i >= 0; i--) {
         // Start at second to last element, go backwards from there
@@ -97,7 +96,7 @@ function updatePlayer(newRow, newCol) {
     }
 
     // Update player location
-    temp.splice(0, 0, { row: newRow, col: newCol});
+    temp.unshift({ row: newRow, col: newCol});
 
     // Draw Player
     for (let i = 0; i < temp.length; i++) {
