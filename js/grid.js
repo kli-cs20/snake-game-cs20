@@ -85,7 +85,12 @@ function movePlayer() {
 function updatePlayer(newRow, newCol) {
     temp = player;
 
-    for (let i = temp.length - 2; i >= 0; i--) {
+    // Remove last player array value
+    let last = temp.length - 1;
+    grid[temp[last].row][temp[last].col] = 0;
+    temp.pop();
+
+    for (let i = temp.length - 1; i >= 0; i--) {
         // Start at second to last element, go backwards from there
         // The second last element will become the element before it
         temp[i + 1] = { ...temp[i] };
@@ -93,11 +98,6 @@ function updatePlayer(newRow, newCol) {
 
     // Update player location
     temp.splice(0, 0, { row: newRow, col: newCol});
-
-    // Remove last player array value
-    let last = temp.length - 1;
-    grid[temp[last].row][temp[last].col] = 0;
-    temp.pop();
 
     // Draw Player
     for (let i = 0; i < temp.length; i++) {
@@ -134,13 +134,13 @@ function updateGrid() {
 }
 
 function checkCollisions() {
-    for (let i = 0; i < player.length; i++) {
-        if (player[i].row < 0 || player[i].row > 14) {
-            gameOver();
-        } else if (player[i].col < 0 || player[i].col > 14) {
-            gameOver();
-        }
+
+    if (player[0].row < 0 || player[0].row > 14) {
+        gameOver();
+    } else if (player[0].col < 0 || player[0].col > 14) {
+        gameOver();
     }
+
 }
 
 function gameOver() {

@@ -25,14 +25,17 @@ let game = true;
 
 function draw() {
     if (game) {
-        console.log(player)
         movePlayer();
+
+        console.log(player)
 
         checkCollisions();
     
         updateGrid();
+
     }   
 }
+
 
 
 
