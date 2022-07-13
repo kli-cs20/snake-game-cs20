@@ -7,8 +7,6 @@ const NUM_COLS = 15;
 // Create array to represent a grid
 let grid = createGridArray();
 
-// Create divs to model the grid array
-createDivGrid(grid);
 
 
 function createGridArray() {
@@ -60,37 +58,37 @@ document.addEventListener("keydown", changeDirection);
 
 function changeDirection(e) {
     if (e.keyCode === 39) { // Right arrow key
-        player.direction = "right";
+        direction = "right";
     } else if (e.keyCode === 37) { // Left arrow key
-        player.direction = "left";
+        direction = "left";
     } else if (e.keyCode === 38) { // up arrow key
-        player.direction = "up";
+        direction = "up";
     } else if (e.keyCode === 40) { // Down arrow key
-        player.direction = "down";
+        direction = "down";
     }
 }
 
 function movePlayer() {
-    if (player.direction === "left") {
+    if (direction === "left") {
         if (player.col - 1 >= 0) {
             updatePlayer(player.row, player.col - 1);
         } else {
             gameOver();
         }
-    } else if (player.direction === "right") {
-        if (player.col + 1 < 6) {
+    } else if (direction === "right") {
+        if (player.col + 1 < 15) {
             updatePlayer(player.row, player.col + 1);
         } else {
             gameOver();
         }
-    } else if (player.direction === "up") {
+    } else if (direction === "up") {
         if (player.row - 1 >= 0) {
             updatePlayer(player.row - 1, player.col);
         } else {
             gameOver();
         }
-    } else if (player.direction === "down") {
-        if (player.row + 1 < 6) {
+    } else if (direction === "down") {
+        if (player.row + 1 < 15) {
             updatePlayer(player.row + 1, player.col);
         } else {
             gameOver();
@@ -99,17 +97,25 @@ function movePlayer() {
 }
 
 function updatePlayer(newRow, newCol) {
+    for (let i = player.length - 2; i >= 0; i--) {
+        // Start at second to last element, go backwards from there
+        // The second last element will become the element before it
+        player[i + 1] = { ...player[i] }
+    }
+
+
     function checkCollisions() {
         return grid[newRow][newCol] !== 1 && grid[newRow][newCol] !== 2;
     }
 
     if (checkCollisions) {
-        // Remove player class from current location
-        let cellId = "cell" + player.row + "-" + player.col;
-        document.getElementById(cellId).classList.remove("player");
+        
+        // // Remove player class from current location
+        // let cellId = "cell" + player.row + "-" + player.col;
+        // document.getElementById(cellId).classList.remove("player");
 
         // Set grid array to 0 for current location
-        grid[player.row][player.col] = 0;
+        // grid[player.row][player.col] = 0;
 
         // Update player location
         player.row = newRow;
@@ -124,7 +130,7 @@ function updatePlayer(newRow, newCol) {
 }
 
 function gameOver() {
-    player.direction = "";
+    direction = "";
     player.row = 7;
     player.col = 7;
     console.log("Game Over");
