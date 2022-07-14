@@ -43,6 +43,8 @@ function createDivGrid(grid) {
                 divEl.classList.add("empty");
             } else if (grid[row][col] === 1) {
                 divEl.classList.add("player");
+            } else if (grid[row][col] === 2) {
+                divEl.classList.add("apple");
             }
 
             // Add dataset values for row and col
@@ -82,6 +84,14 @@ function createApples() {
         { row: randomInt(0, 15), col: randomInt(0, 15)},
     ];
 
+    // Draw Apples
+    for (let i = 0; i < apples.length; i++) {
+        let thisApple = apples[i];
+        grid[thisApple.row][thisApple.col] = 2;
+    }
+}
+
+function drawApples() {
     // Draw Apples
     for (let i = 0; i < apples.length; i++) {
         let thisApple = apples[i];
