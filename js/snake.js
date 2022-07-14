@@ -5,7 +5,9 @@ let resultEl = document.getElementById("results");
 let scoreEl = document.getElementById("score");
 
 let player = [];
+let apples = [];
 drawPlayer();
+createApples();
     
 // Global Variables
 let direction = "left";

@@ -65,11 +65,27 @@ function drawPlayer() {
         { row: 7, col: 7},
         { row: 7, col: 8},
         { row: 7, col: 9},
-    ]
+    ];
 
     // Draw Player
     for (let i = 0; i < player.length; i++) {
         grid[player[i].row][player[i].col] = 1;
+    }
+}
+
+function createApples() {
+    apples = [
+        { row: randomInt(0, 15), col: randomInt(0, 15)},
+        { row: randomInt(0, 15), col: randomInt(0, 15)},
+        { row: randomInt(0, 15), col: randomInt(0, 15)},
+        { row: randomInt(0, 15), col: randomInt(0, 15)},
+        { row: randomInt(0, 15), col: randomInt(0, 15)},
+    ];
+
+    // Draw Apples
+    for (let i = 0; i < apples.length; i++) {
+        let thisApple = apples[i];
+        grid[thisApple.row][thisApple.col] = 2;
     }
 }
 
@@ -134,12 +150,20 @@ function updateGrid() {
                 // Update class and grid
                 let cellId = "cell" + row + "-" + col;
                 document.getElementById(cellId).classList.remove("player");
+                document.getElementById(cellId).classList.remove("apple");
                 document.getElementById(cellId).classList.add("empty");
             } else if (grid[row][col] === 1) {
                 // Update class and grid
                 let cellId = "cell" + row + "-" + col;
                 document.getElementById(cellId).classList.remove("empty");
+                document.getElementById(cellId).classList.remove("apple");
                 document.getElementById(cellId).classList.add("player");
+            } else if (grid[row][col] === 2) {
+                // Update class and grid
+                let cellId = "cell" + row + "-" + col;
+                document.getElementById(cellId).classList.remove("empty");
+                document.getElementById(cellId).classList.remove("player");
+                document.getElementById(cellId).classList.add("apple");
             }
         }
     }
