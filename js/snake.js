@@ -28,8 +28,9 @@ function draw() {
         clearBoard(grid);
         drawApples();
         movePlayer();
-        checkCollisions();
+        checkWallCollisions();
         updateGrid();
+        scoreEl.innerHTML = score;
     } else if (game == "over") {
         scoreEl.innerHTML = score;
     }

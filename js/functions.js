@@ -78,10 +78,6 @@ function drawPlayer() {
 function createApples() {
     apples = [
         { row: randomInt(0, 15), col: randomInt(0, 15)},
-        { row: randomInt(0, 15), col: randomInt(0, 15)},
-        { row: randomInt(0, 15), col: randomInt(0, 15)},
-        { row: randomInt(0, 15), col: randomInt(0, 15)},
-        { row: randomInt(0, 15), col: randomInt(0, 15)},
     ];
 
     // Draw Apples
@@ -97,6 +93,15 @@ function drawApples() {
         let thisApple = apples[i];
         grid[thisApple.row][thisApple.col] = 2;
     }
+}
+
+function newApple() {
+    apples.push({ row: randomInt(0, 15), col: randomInt(0, 15) });
+}
+
+function eatApple(r, c) {
+    let tail = player[player.length - 1];
+    player.push({ row: tail.row, col: tail.col})
 }
 
 // Key Event Listeners - player movement
@@ -127,6 +132,9 @@ function movePlayer() {
 }
 
 function updatePlayer(newRow, newCol) {
+    // Check new coordinates if allowed
+    checkBlock(newRow, newCol);
+    checkWallCollisions(newRow, newCol);
 
     for (let i = player.length - 2; i >= 0; i--) {
         // Start at second to last element, go backwards from there
@@ -137,21 +145,13 @@ function updatePlayer(newRow, newCol) {
     // Update snake head
     player[0] = { row: newRow, col: newCol };
 
-    // Check new coordinates if allowed
-    checkCollisions();
-
     // Draw Player (if game not over)
     for (let i = 0; i < player.length; i++) {
         grid[player[i].row][player[i].col] = 1;
     }
+
+    
 }
-
-function removeBlock(block) {
-    // Set grid array to 0 for current location
-    grid[block.row][block.col] = 0;
-}
-
-
 
 function updateGrid() {
     for (let row = 0; row < NUM_ROWS; row++) {
@@ -179,11 +179,22 @@ function updateGrid() {
     }
 }
 
-function checkCollisions() {
-    if (player[0].row < 0 || player[0].row > 14) {
+function checkWallCollisions(row, col) {
+    if (row < 0 || row > 14) {
         gameOver();
-    } else if (player[0].col < 0 || player[0].col > 14) {
+    } else if (col < 0 || col > 14) {
         gameOver();
+    }
+}
+
+function checkBlock(row, col) {
+    if (grid[row][col] === 1) {
+        console.log("hit own snake")
+    } else if (grid[row][col] === 2) {
+        score += 10;
+        apples.pop();
+        newApple();
+        eatApple();
     }
 }
 
