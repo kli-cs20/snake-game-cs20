@@ -83,29 +83,21 @@ function movePlayer() {
 }
 
 function updatePlayer(newRow, newCol) {
-    temp = player;
 
-    // Remove last player array value
-    let tail = temp.pop();
-    grid[tail.row][tail.col] = 0;
-
-    for (let i = temp.length - 1; i >= 0; i--) {
+    for (let i = player.length - 2; i >= 0; i--) {
         // Start at second to last element, go backwards from there
         // The second last element will become the element before it
-        temp[i + 1] = { ...temp[i] };
+        player[i + 1] = { ...player[i] };
     }
 
-    // Update player location
-    temp.unshift({ row: newRow, col: newCol});
+    // Update snake head
+    player[0] = { row: newRow, col: newCol };
 
     // Draw Player
-    for (let i = 0; i < temp.length; i++) {
-        grid[temp[i].row][temp[i].col] = 1;
+    for (let i = 0; i < player.length; i++) {
+        grid[player[i].row][player[i].col] = 1;
     }
-
-    player = temp;
 }
-
 
 function removeBlock(block) {
     // Set grid array to 0 for current location
@@ -134,9 +126,9 @@ function updateGrid() {
 
 function checkCollisions() {
 
-    if (player[0].row < 0 || player[0].row > 14) {
+    if (player[0].row <= 0 || player[0].row >= 14) {
         gameOver();
-    } else if (player[0].col < 0 || player[0].col > 14) {
+    } else if (player[0].col <= 0 || player[0].col >= 14) {
         gameOver();
     }
 
@@ -148,4 +140,12 @@ function gameOver() {
     player.col = 7;
     console.log("Game Over");
     game = false;
+}
+
+function clearBoard(array) {
+    for (let row = 0; row < NUM_ROWS; row++) {
+        for (let col = 0; col < NUM_COLS; col++) {
+            array[row][col] = 0;
+        }
+    }
 }
