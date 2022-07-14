@@ -19,15 +19,17 @@ let direction = "up";
 // Create divs to model the grid array
 createDivGrid(grid);
 
-setInterval(draw, 1000);
+setInterval(draw, 500);
 
 let game = true;
 
 function draw() {
     if (game) {
         clearBoard(grid);
+
         movePlayer();
         checkCollisions();
+        
         updateGrid();
 
     }   

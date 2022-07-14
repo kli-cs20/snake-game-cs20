@@ -125,19 +125,14 @@ function updateGrid() {
 }
 
 function checkCollisions() {
-
-    if (player[0].row <= 0 || player[0].row >= 14) {
+    if (player[0].row < 0 || player[0].row > 14) {
         gameOver();
-    } else if (player[0].col <= 0 || player[0].col >= 14) {
+    } else if (player[0].col < 0 || player[0].col > 14) {
         gameOver();
     }
-
 }
 
 function gameOver() {
-    direction = "up";
-    player.row = 7;
-    player.col = 7;
     console.log("Game Over");
     game = false;
 }
