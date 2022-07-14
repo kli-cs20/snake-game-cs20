@@ -55,6 +55,24 @@ function createDivGrid(grid) {
     }
 }
 
+function startGame() {
+    game = "play";
+}
+
+function drawPlayer() {
+    // Add player to the grid array
+    player = [
+        { row: 7, col: 7},
+        { row: 7, col: 8},
+        { row: 7, col: 9},
+    ]
+
+    // Draw Player
+    for (let i = 0; i < player.length; i++) {
+        grid[player[i].row][player[i].col] = 1;
+    }
+}
+
 // Key Event Listeners - player movement
 document.addEventListener("keydown", changeDirection);
 
@@ -93,7 +111,10 @@ function updatePlayer(newRow, newCol) {
     // Update snake head
     player[0] = { row: newRow, col: newCol };
 
-    // Draw Player
+    // Check new coordinates if allowed
+    checkCollisions();
+
+    // Draw Player (if game not over)
     for (let i = 0; i < player.length; i++) {
         grid[player[i].row][player[i].col] = 1;
     }
@@ -133,8 +154,15 @@ function checkCollisions() {
 }
 
 function gameOver() {
-    console.log("Game Over");
-    game = false;
+    game = "over";
+    resultEl.innerHTML = "You died..."
+    setTimeout(reset, 3000);
+}
+
+function reset() {
+    drawPlayer();
+    direction = "left";
+    game = "start";
 }
 
 function clearBoard(array) {
