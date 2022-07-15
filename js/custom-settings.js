@@ -3,28 +3,18 @@
 // Global (customizable) Variables
 let segmentsGained = 3;
 let numApples = 3;
+let frames = 150;
 
 // HTML Elements
-const numAppleEl = document.getElementById("numApples");
-const segmentsEl = document.getElementById("numSegments");
+const oneAppleBtn = document.getElementById("oneApple");
+const threeApplesBtn = document.getElementById("threeApples");
+const fiveApplesBtn = document.getElementById("fiveApples");
 
-// Modal Stuff
-const modalEl = document.getElementById("modal");
-const showModalEl = document.getElementById('show-modal');
-const hideModalEl = document.getElementById("hide-modal");
+oneAppleBtn.addEventListener("click", adjustApples(1));
+threeApplesBtn.addEventListener("click", adjustApples(3));
+fiveApplesBtn.addEventListener("click", adjustApples(5));
 
-showModalEl.addEventListener("click", showModal);
-hideModalEl.addEventListener("click", hideandUpdate)
+function adjustApples(n) {
+    numApples = n;
 
-function showModal() {
-    modalEl.style.display = "block";
 }
-function hideandUpdate() {
-    modalEl.style.display = "none";
-
-    numApples = +numAppleEl.value;
-    segmentsGained = +segmentsEl.value;
-    console.log(`${numApples} and ${segmentsGained}`);
-}
-
-

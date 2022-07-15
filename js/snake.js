@@ -29,6 +29,7 @@ function draw() {
         score = 0;
     } else if (game === "play") {
         clearBoard(grid);
+
         drawApples();
 
         movePlayer();
