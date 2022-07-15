@@ -16,6 +16,7 @@ let direction = "left";
 let score = 0;
 let highScore = 0;
 let game = "start";
+let segmentsGained = 3;
 
 // Create divs to model the grid array
 createDivGrid(grid);

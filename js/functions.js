@@ -72,9 +72,11 @@ function drawPlayer() {
 }
 
 function createApples() {
-    for (let i = 1; i <= numApples; i++) {
-        newApple();
-    }
+    apples = [
+        { row: randomInt(0, 15), col: randomInt(0, 15)},
+        { row: randomInt(0, 15), col: randomInt(0, 15)},
+        { row: randomInt(0, 15), col: randomInt(0, 15)},
+    ];
 
     // Draw Apples
     for (let i = 0; i < apples.length; i++) {
@@ -197,7 +199,6 @@ function checkApple(row, col) {
 function checkSelfCollide() {
     for (let i = 1; i < player.length; i++) {
         if (player[i].row === player[0].row && player[i].col === player[0].col) {
-            console.log("self collision");
             gameOver();
         }
     }
@@ -231,7 +232,7 @@ function updateGrid() {
 
 function gameOver() {
     game = "over";
-    resultEl.innerHTML = "You died... click to play again"
+    resultEl.innerHTML = "You died... press Space to play again"
     setTimeout(reset, 3000);
 }
 
