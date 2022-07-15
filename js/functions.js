@@ -60,9 +60,9 @@ function createDivGrid(grid) {
 function drawPlayer() {
     // Add player to the grid array
     player = [
-        { row: 7, col: 7},
-        { row: 7, col: 8},
         { row: 7, col: 9},
+        { row: 7, col: 10},
+        { row: 7, col: 11},
     ];
 
     // Draw Player
@@ -228,7 +228,7 @@ function updateGrid() {
 
 function gameOver() {
     game = "over";
-    resultEl.innerHTML = "You died... "
+    resultEl.innerHTML = "You died... click to play again"
     setTimeout(reset, 3000);
     console.log(player)
 }
@@ -236,7 +236,6 @@ function gameOver() {
 function reset() {
     drawPlayer();
     createApples();
-    resultEl.innerHTML = "Click to play again"
     direction = "left";
     game = "start";
 }

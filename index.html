@@ -10,12 +10,23 @@
 <body>
     <h1>Snake</h1>
 
-    <p>Click the screen to begin playing!</p>
+    <h4>Click the screen to begin playing!</h4>
     
     <div id="container"></div>
     
     <p id="results"></p>
     <p>Score: <span id="score">--</span></p>
+    <p>High Score: <span id="high-score">--</span></p>
+
+    <button id="show-modal">Customize Game</button>
+
+    <div id="modal">
+        <div class="modal-container">
+            <h2><u>Customize Snake</u></h2>
+
+            <button id="hide-modal">Exit</button>
+        </div>
+    </div>
 
     <script src="js/random_library.js"></script>
     <script src="js/functions.js"></script>
