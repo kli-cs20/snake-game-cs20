@@ -57,10 +57,6 @@ function createDivGrid(grid) {
     }
 }
 
-function startGame() {
-    game = "play";
-}
-
 function drawPlayer() {
     // Add player to the grid array
     player = [
@@ -87,6 +83,18 @@ function createApples() {
     }
 }
 
+function startGame() {
+    game = "play";
+}
+
+function clearBoard(array) {
+    for (let row = 0; row < NUM_ROWS; row++) {
+        for (let col = 0; col < NUM_COLS; col++) {
+            array[row][col] = 0;
+        }
+    }
+}
+
 function drawApples() {
     // Draw Apples
     for (let i = 0; i < apples.length; i++) {
@@ -99,7 +107,7 @@ function newApple() {
     apples.push({ row: randomInt(0, 15), col: randomInt(0, 15) });
 }
 
-function eatApple(r, c) {
+function eatApple() {
     let tail = player[player.length - 1];
     player.push({ row: tail.row, col: tail.col})
 }
@@ -153,6 +161,25 @@ function updatePlayer(newRow, newCol) {
     
 }
 
+function checkWallCollisions(row, col) {
+    if (row < 0 || row > 14) {
+        gameOver();
+    } else if (col < 0 || col > 14) {
+        gameOver();
+    }
+}
+
+function checkBlock(row, col) {
+    if (grid[row][col] === 1) {
+        console.log("hit own snake")
+    } else if (grid[row][col] === 2) {
+        score += 10;
+        apples.pop();
+        newApple();
+        eatApple();
+    }
+}
+
 function updateGrid() {
     for (let row = 0; row < NUM_ROWS; row++) {
         for (let col = 0; col < NUM_COLS; col++) {
@@ -179,25 +206,6 @@ function updateGrid() {
     }
 }
 
-function checkWallCollisions(row, col) {
-    if (row < 0 || row > 14) {
-        gameOver();
-    } else if (col < 0 || col > 14) {
-        gameOver();
-    }
-}
-
-function checkBlock(row, col) {
-    if (grid[row][col] === 1) {
-        console.log("hit own snake")
-    } else if (grid[row][col] === 2) {
-        score += 10;
-        apples.pop();
-        newApple();
-        eatApple();
-    }
-}
-
 function gameOver() {
     game = "over";
     resultEl.innerHTML = "You died..."
@@ -210,10 +218,3 @@ function reset() {
     game = "start";
 }
 
-function clearBoard(array) {
-    for (let row = 0; row < NUM_ROWS; row++) {
-        for (let col = 0; col < NUM_COLS; col++) {
-            array[row][col] = 0;
-        }
-    }
-}
