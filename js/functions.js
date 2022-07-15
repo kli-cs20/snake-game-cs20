@@ -72,9 +72,9 @@ function drawPlayer() {
 }
 
 function createApples() {
-    apples = [
-        { row: randomInt(0, 15), col: randomInt(0, 15)},
-    ];
+    for (let i = 1; i <= numApples; i++) {
+        newApple();
+    }
 
     // Draw Apples
     for (let i = 0; i < apples.length; i++) {
@@ -83,8 +83,10 @@ function createApples() {
     }
 }
 
-function startGame() {
-    game = "play";
+function startGame(e) {
+    if (e.keyCode === 32) {
+        game = "play";
+    }
 }
 
 function clearBoard(array) {
@@ -108,9 +110,10 @@ function newApple() {
 
 function eatApple() {
     let tail = player[player.length - 1];
-    player.push({ row: tail.row, col: tail.col});
-    player.push({ row: tail.row, col: tail.col});
-    player.push({ row: tail.row, col: tail.col});
+
+    for (let i = 1; i <= segmentsGained; i++) {
+        player.push({ row: tail.row, col: tail.col});
+    }
 }
 
 // Key Event Listeners - player movement
@@ -230,7 +233,6 @@ function gameOver() {
     game = "over";
     resultEl.innerHTML = "You died... click to play again"
     setTimeout(reset, 3000);
-    console.log(player)
 }
 
 function reset() {

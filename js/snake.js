@@ -5,24 +5,6 @@ let resultEl = document.getElementById("results");
 let scoreEl = document.getElementById("score");
 let highScoreEl = document.getElementById("high-score");
 
-// Modal Stuff
-let modalEl = document.getElementById("modal");
-let showModalEl = document.getElementById('show-modal');
-let hideModalEl = document.getElementById("hide-modal");
-
-showModalEl.addEventListener("click", showModal);
-hideModalEl.addEventListener("click", hideModal)
-
-function showModal() {
-    modalEl.style.display = "block";
-}
-function hideModal() {
-    modalEl.style.display = "none";
-}
-//////////////
-
-
-
 // Set up player and apple arrays
 let player = [];
 let apples = [];
@@ -43,14 +25,13 @@ setInterval(draw, 150);
 function draw() {
     if (game === "start") {
         resultEl.innerHTML = "";
-        document.addEventListener("click", startGame);
+        document.addEventListener("keydown", startGame);
         score = 0;
     } else if (game === "play") {
         clearBoard(grid);
         drawApples();
 
         movePlayer();
-
         
         updateGrid();
         scoreEl.innerHTML = score;
