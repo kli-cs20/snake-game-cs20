@@ -74,8 +74,6 @@ function drawPlayer() {
 function createApples() {
     apples = [
         { row: randomInt(0, 15), col: randomInt(0, 15)},
-        { row: randomInt(0, 15), col: randomInt(0, 15)},
-        { row: randomInt(0, 15), col: randomInt(0, 15)},
     ];
 
     // Draw Apples
