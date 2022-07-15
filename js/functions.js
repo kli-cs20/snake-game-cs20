@@ -96,7 +96,6 @@ function clearBoard(array) {
 }
 
 function drawApples() {
-    // Draw Apples
     for (let i = 0; i < apples.length; i++) {
         let thisApple = apples[i];
         grid[thisApple.row][thisApple.col] = 2;
@@ -109,7 +108,9 @@ function newApple() {
 
 function eatApple() {
     let tail = player[player.length - 1];
-    player.push({ row: tail.row, col: tail.col})
+    player.push({ row: tail.row, col: tail.col});
+    player.push({ row: tail.row, col: tail.col});
+    player.push({ row: tail.row, col: tail.col});
 }
 
 // Key Event Listeners - player movement
@@ -117,42 +118,54 @@ document.addEventListener("keydown", changeDirection);
 
 function changeDirection(e) {
     if (e.keyCode === 39) { // Right arrow key
-        direction = "right";
+        if (direction !== "left") {
+            direction = "right";
+        }
     } else if (e.keyCode === 37) { // Left arrow key
-        direction = "left";
+        if (direction !== "right") {
+            direction = "left";
+        }
     } else if (e.keyCode === 38) { // up arrow key
-        direction = "up";
+        if (direction !== "down") {
+            direction = "up";
+        }
     } else if (e.keyCode === 40) { // Down arrow key
-        direction = "down";
+        if (direction !== "up") {
+            direction = "down";
+        }
     }
 }
 
 function movePlayer() {
     if (direction === "left") {
+        checkWallCollisions(player[0].row, player[0].col - 1);
         updatePlayer(player[0].row, player[0].col - 1);
     } else if (direction === "right") {
+        checkWallCollisions(player[0].row, player[0].col + 1);
         updatePlayer(player[0].row, player[0].col + 1);
     } else if (direction === "up") {
+        checkWallCollisions(player[0].row - 1, player[0].col);
         updatePlayer(player[0].row - 1, player[0].col);
     } else if (direction === "down") {
+        checkWallCollisions(player[0].row + 1, player[0].col);
         updatePlayer(player[0].row + 1, player[0].col);
     }
 }
 
 function updatePlayer(newRow, newCol) {
-    // Check new coordinates if allowed
-    checkBlock(newRow, newCol);
-    checkWallCollisions(newRow, newCol);
-
+    checkApple(newRow, newCol);
     for (let i = player.length - 2; i >= 0; i--) {
         // Start at second to last element, go backwards from there
         // The second last element will become the element before it
         player[i + 1] = { ...player[i] };
     }
-
+        
     // Update snake head
     player[0] = { row: newRow, col: newCol };
 
+    // Test if snake runs into itself
+    checkSelfCollide();
+        
     // Draw Player (if game not over)
     for (let i = 0; i < player.length; i++) {
         grid[player[i].row][player[i].col] = 1;
@@ -169,14 +182,21 @@ function checkWallCollisions(row, col) {
     }
 }
 
-function checkBlock(row, col) {
-    if (grid[row][col] === 1) {
-        console.log("hit own snake")
-    } else if (grid[row][col] === 2) {
+function checkApple(row, col) {
+    if (grid[row][col] === 2) {
         score += 10;
         apples.pop();
         newApple();
         eatApple();
+    }
+}
+
+function checkSelfCollide() {
+    for (let i = 1; i < player.length; i++) {
+        if (player[i].row === player[0].row && player[i].col === player[0].col) {
+            console.log("self collision");
+            gameOver();
+        }
     }
 }
 
@@ -208,12 +228,15 @@ function updateGrid() {
 
 function gameOver() {
     game = "over";
-    resultEl.innerHTML = "You died..."
+    resultEl.innerHTML = "You died... "
     setTimeout(reset, 3000);
+    console.log(player)
 }
 
 function reset() {
     drawPlayer();
+    createApples();
+    resultEl.innerHTML = "Click to play again"
     direction = "left";
     game = "start";
 }

@@ -17,7 +17,7 @@ let game = "start";
 // Create divs to model the grid array
 createDivGrid(grid);
 
-setInterval(draw, 250);
+setInterval(draw, 150);
 
 function draw() {
     if (game === "start") {
@@ -27,8 +27,10 @@ function draw() {
     } else if (game === "play") {
         clearBoard(grid);
         drawApples();
+
         movePlayer();
-        checkWallCollisions();
+
+        
         updateGrid();
         scoreEl.innerHTML = score;
     } else if (game == "over") {
