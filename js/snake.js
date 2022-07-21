@@ -25,10 +25,11 @@ setInterval(draw, 150);
 
 function draw() {
     if (game === "start") {
-        resultEl.innerHTML = "";
         document.addEventListener("keydown", startGame);
         score = 0;
     } else if (game === "play") {
+        resultEl.innerHTML = "";
+        
         clearBoard(grid);
 
         drawApples();

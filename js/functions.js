@@ -178,9 +178,9 @@ function updatePlayer(newRow, newCol) {
 }
 
 function checkWallCollisions(row, col) {
-    if (row < 0 || row > 14) {
+    if (row < 0 || row > NUM_ROWS - 1) {
         gameOver();
-    } else if (col < 0 || col > 14) {
+    } else if (col < 0 || col > NUM_COLS - 1) {
         gameOver();
     }
 }
