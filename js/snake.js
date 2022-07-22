@@ -27,6 +27,7 @@ function draw() {
     if (game === "start") {
         document.addEventListener("keydown", startGame);
         score = 0;
+        direction = "left";
     } else if (game === "play") {
         resultEl.innerHTML = "";
         
